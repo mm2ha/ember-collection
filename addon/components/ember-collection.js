@@ -14,7 +14,12 @@ class Cell {
   }
 }
 
-export default Ember.Component.extend({
+/**
+ * @class EmberCollection
+ * @extends Ember.component
+ * @memberof components
+ */
+export default Ember.Component.extend(/** @lends components.EmberCollection.prototype */ {
   layout: layout,
 
   init() {
@@ -71,9 +76,15 @@ export default Ember.Component.extend({
     this.updateScrollPosition();
   },
 
-  updateItems(){
-    this._cellLayout = this.getAttr('cell-layout');
-    var rawItems = this.getAttr('items');
+    /**
+     * Updates internal collection of items
+     *
+     * @param {Ember.NativeArray} itemsIn - If specified, it will be used instead of the attribute
+     * @param {Grid} cellLayoutIn - If specified, it will be used instead of the attribute
+     */
+  updateItems(itemsIn, cellLayoutIn){
+    this._cellLayout = cellLayoutIn || this.getAttr('cell-layout');
+    var rawItems = itemsIn || this.getAttr('items');
 
     if (this._rawItems !== rawItems) {
       if (this._items && this._items.removeArrayObserver) {
@@ -140,12 +151,13 @@ export default Ember.Component.extend({
     var priorMap = this._cellMap;
     var cellMap = Object.create(null);
 
-    var index = this._cellLayout.indexAt(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
-    var count = this._cellLayout.count(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
+    let startingIndex = this._cellLayout.indexAt(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
+    let visibleCount = this._cellLayout.count(this._scrollLeft, this._scrollTop, this._clientWidth, this._clientHeight);
+
     var items = this._items;
-    var bufferBefore = Math.min(index, this._buffer);
-    index -= bufferBefore;
-    count += bufferBefore;
+    var bufferBefore = Math.min(startingIndex, this._buffer);
+    let index = startingIndex - bufferBefore;
+    let count = visibleCount + bufferBefore;
     count = Math.min(count + this._buffer, get(items, 'length') - index);
     var i, style, itemIndex, itemKey, cell;
 
@@ -199,8 +211,16 @@ export default Ember.Component.extend({
       this._cells.pushObject(cell);
     }
     this._cellMap = cellMap;
+
+    // If there is an updateCellsFinished action on this component, then trigger it
+    // This will only happen if the AdcEmberCollection component is overriding this one
+    if (this.actions.updateCellsFinished) {
+      this.send('updateCellsFinished', startingIndex, visibleCount);
+    }
+
   },
-  actions: {
+  /** @ignore **/
+  actions: /** @lends components.EmberCollection.prototype */ {
     scrollChange(scrollLeft, scrollTop) {
       if (this._scrollChange) {
         // console.log('ember-collection sendAction scroll-change', scrollTop);

@@ -3,6 +3,9 @@
 /dist
 /tests
 /tmp
+/docs
+/.idea
+/.svn
 **/.gitkeep
 .bowerrc
 .editorconfig

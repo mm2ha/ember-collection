@@ -1,0 +1,72 @@
+<hr/>
+Grid layout:
+<br/>
+FullWidthRow: {{input type="checkbox" checked=fullWidthRow}}
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Fixed width and height of an item:
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item height: {{input type="text" value=itemHeight}}
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item width: {{input type="text" value=itemWidth}}
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-------------------------------------------------
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Fixed height, full width row:
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row Height: {{input type="text" value=rowHeight}}
+<br/>
+<br/>
+
+<hr/>
+Initial item count: {{input type="text" value=initialItemCount size=4 focus-out="recreateItems"}} (changing recreates items)
+<br/>
+Incremental item count: {{input type="text" value=incrementalItemCount size=4}}
+<hr/>
+Buffer: {{input type="text" value=buffer size="4" }}
+<br/>
+Inifnity scroll: {{input type="checkbox" checked=isInfinite}}
+{{#if isInfinite}}
+    <br/>
+    Infinity scroll buffer: {{input type="text" value=infinityScrollBuffer size="4"}}
+{{/if}}
+<br/>
+<button {{action 'reloadData'}}>Reload Data (as a promise)</button>
+<hr/>
+Results:
+<br/>
+All items loaded: {{input type="checkbox" checked=hasAllItemsLoadedStatus disabled=true}}
+<br/>
+Currently loading: {{input type="checkbox" checked=isLoadingStatus disabled=true}}
+<br/>
+<hr/>
+<hr/>
+<div class="mixed" style="position:relative;height:500px;">
+    {{#adc-ember-collection
+    items=items
+    display-buffer=10
+
+    itemHeight=itemHeight
+    itemWidth=itemWidth
+    rowHeight=rowHeight
+
+    isInfiniteScroll=isInfinite
+    infiniteScrollBuffer=infinityScrollBuffer
+    fullWidthRow=fullWidthRow
+
+    get-more-items=(action 'loadMoreDataFunction')
+    viewport-change=(action 'sliceDidChange')
+    is-loading=(action 'isLoadingAction')
+    all-items-loaded=(action 'allItemsLoadedAction')
+
+    itemsWrapperClass="this-is-a-random-class"
+
+    as |item index removeItem|
+    }}
+        {{!--{{more-data item=item removeItem=removeItem}}--}}
+        <div class="list-item">
+            {{item.name}}<br/>
+            {{item.height}}<br/>
+            {{item.index}}
+        </div>
+    {{/adc-ember-collection}}
+</div>

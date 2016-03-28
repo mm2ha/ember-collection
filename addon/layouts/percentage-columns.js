@@ -2,12 +2,17 @@ import ShelfFirst from 'layout-bin-packer/shelf-first';
 import {formatPercentageStyle} from '../utils/style-generators';
 import Ember from 'ember';
 
-export default class MixedGrid
+export default class PercentageGrid
 {
   // How this layout works is by creating a fake grid that is 100px wide.
   // Each item's width is set to be the size of the column. The ShelfFirst lays out everything according to this fake grid.
   // When ember-collection asks for the style in formatItemStyle we pull the percent property to use as the width.
   constructor(itemCount, columns, height) {
+    // Allow bypassing the constructor from extended method
+    if (itemCount === undefined) {
+        return;
+    }
+
     let total = columns.reduce(function(a, b) {
         return a+b;
     });
@@ -22,9 +27,9 @@ export default class MixedGrid
             height: height,
             percent: columns[ci]
         });
-        
+
         ci++;
-        
+
         if (ci >= columns.length) {
             ci = 0;
         }
@@ -60,7 +65,7 @@ export default class MixedGrid
   count(offsetX, offsetY, width, height) {
     return this.bin.numberVisibleWithin(offsetY, 100, height, true);
   }
- 
+
   formatItemStyle(itemIndex, clientWidth, clientHeight) {
     let pos = this.positionAt(itemIndex, 100, clientHeight);
     let width = this.positions[itemIndex].percent;

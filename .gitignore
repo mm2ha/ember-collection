@@ -13,6 +13,10 @@
 /connect.lock
 /coverage/*
 /libpeerconnection.log
+/.idea
 npm-debug.log
 testem.log
 .DS_Store
+/docs
+/.svn
+/tests/dummy/public/font-mark/*
