@@ -21,16 +21,24 @@ FullWidthRow: {{input type="checkbox" checked=fullWidthRow}}
 Initial item count: {{input type="text" value=initialItemCount size=4 focus-out="recreateItems"}} (changing recreates items)
 <br/>
 Incremental item count: {{input type="text" value=incrementalItemCount size=4}}
+<br/>
+More items delay: {{input type="text" value=newItemsDelay size=4}}
 <hr/>
 Buffer: {{input type="text" value=buffer size="4" }}
 <br/>
-Inifnity scroll: {{input type="checkbox" checked=isInfinite}}
+Infinity scroll: {{input type="checkbox" checked=isInfinite}}
 {{#if isInfinite}}
     <br/>
     Infinity scroll buffer: {{input type="text" value=infinityScrollBuffer size="4"}}
 {{/if}}
 <br/>
+% chance next items will be all loaded: {{input type="text" value=chanceItemsLoaded}}
+<br/>
 <button {{action 'reloadData'}}>Reload Data (as a promise)</button>
+{{#unless isInfinite}}
+    <br/>
+    <button {{action 'addMoreData'}}>Add Data</button>
+{{/unless}}
 <hr/>
 Results:
 <br/>
@@ -41,9 +49,9 @@ Currently loading: {{input type="checkbox" checked=isLoadingStatus disabled=true
 <hr/>
 <hr/>
 <div class="mixed" style="position:relative;height:500px;">
-    {{#adc-ember-collection
+    {{#list-view
     items=items
-    display-buffer=10
+    displayBuffer=10
 
     itemHeight=itemHeight
     itemWidth=itemWidth
@@ -57,16 +65,12 @@ Currently loading: {{input type="checkbox" checked=isLoadingStatus disabled=true
     viewport-change=(action 'sliceDidChange')
     is-loading=(action 'isLoadingAction')
     all-items-loaded=(action 'allItemsLoadedAction')
+    items-change=(action 'itemsChangeAction')
 
-    itemsWrapperClass="this-is-a-random-class"
+    itemsContainerClass="this-is-a-random-class"
 
-    as |item index removeItem|
+    as |item removeItem|
     }}
-        {{!--{{more-data item=item removeItem=removeItem}}--}}
-        <div class="list-item">
-            {{item.name}}<br/>
-            {{item.height}}<br/>
-            {{item.index}}
-        </div>
-    {{/adc-ember-collection}}
+        {{more-data item=item removeItem=removeItem}}
+    {{/list-view}}
 </div>

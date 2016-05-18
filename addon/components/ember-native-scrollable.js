@@ -4,8 +4,22 @@ import { styleProperty } from 'ember-collection/utils/style-properties';
 
 const overflowScrollingProp = styleProperty('overflowScrolling');
 
+function ensureRequestAnimationFrame() {
+    if (!window.requestAnimationFrame) {
+        Ember.Logger.warn('No requestAnimationFrame, using setTimeout');
+        window.requestAnimationFrame = function(fn) {
+            return setTimeout(fn, 16);
+        };
+
+        window.cancelAnimationFrame = function(id) {
+            return clearTimeout(id);
+        };
+    }
+}
+
 export default Ember.Component.extend({
   init() {
+      ensureRequestAnimationFrame();
     this._clientWidth = 0;
     this._clientHeight = 0;
     this._scrollLeft = 0;
@@ -76,21 +90,14 @@ export default Ember.Component.extend({
       nextStep();
     }
     function nextStep() {
-      if (window.requestAnimationFrame) {
-        component._animationFrame = requestAnimationFrame(step);
-      } else {
-        component._animationFrame = setTimeout(step, 16);
-      }
+        component._animationFrame = window.requestAnimationFrame(step);
     }
     nextStep();
   },
   cancelScrollCheck() {
     if (this._animationFrame) {
-      if (window.requestAnimationFrame) {
-        cancelAnimationFrame(this._animationFrame);
-      } else {
-        clearTimeout(this._animationFrame);
-      }
+      window.cancelAnimationFrame(this._animationFrame);
+
       this._animationFrame = undefined;
     }
   },

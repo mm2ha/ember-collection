@@ -6,6 +6,8 @@
 
 An efficient incremental rendering component with support for custom layouts and large lists.
 
+For ADC version, see [ADC-README.md](ADC-README)
+
 ### Table of Contents
 
 1. [Installation](#installation)
@@ -16,7 +18,7 @@ An efficient incremental rendering component with support for custom layouts and
 1. [Run unit tests](#running-unit-tests)
 
 ## Installation
-  
+
   * `ember install ember-collection`
 
 ## Demo
@@ -132,7 +134,7 @@ The `mixed-grid-layout` is used when each item has a known `width` and `height` 
 | ----------- | --------------------------- |
 | `itemSizes` | A collection of objects having `width` and `height` properties. Used to lookup with size of the corresponding index in the collection.  |
 
-For example if you want the first element in `items` to have a size of `20x50` then the first element in `itemSizes` must be `{width: 20, height: 50}`. If the items have `width` and `height` properties you can use pass collection to `items` and `itemSizes`. 
+For example if you want the first element in `items` to have a size of `20x50` then the first element in `itemSizes` must be `{width: 20, height: 50}`. If the items have `width` and `height` properties you can use pass collection to `items` and `itemSizes`.
 
 ```hbs
 {{#ember-collection items=model cell-layout=(mixed-grid-layout itemSizes)
@@ -175,28 +177,28 @@ export default Ember.Helper.helper(function(params, hash) {
     contentSize(clientWidth, clientHeight) {
         return { width, height };
     }
-    
+
     /**
      * Return the index of the first item shown.
      */
     indexAt(offsetX, offsetY, clientWidth, clientHeight) {
         return Number;
     }
-    
+
     /**
      *  Return the number of items to display
      */
     count(offsetX, offsetY, width, height) {
         return Number;
     }
-    
+
     /**
      * Return the css that should be used to set the size and position of the item.
      */
     formatItemStyle(itemIndex, clientWidth, clientHeight) {
         return String;
     }
-  } 
+  }
 });
 ```
 

@@ -1,0 +1,57 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+@import 'globals';
+
+@mixin create-mark-font-face($path, $type, $weight) {
+    @font-face {
+        font-family: 'MarkFont';
+
+        src: url($path + 'MarkFont-' + $type + '.woff2') format('woff2'),
+        url($path + 'MarkFont-' + $type + '.woff') format('woff');
+
+        font-weight: $weight;
+        font-style: normal;
+    }
+}
+
+@mixin mark-font-light($path) {
+    @include create-mark-font-face($path, 'Light', $font-weight-light);
+}
+
+@mixin mark-font-normal($path) {
+    @include create-mark-font-face($path, 'Regular', $font-weight-normal);
+}
+
+@mixin mark-font-bold($path) {
+    @include create-mark-font-face($path, 'Bold', $font-weight-bold);
+}
+
+@mixin mark-font-heavy($path) {
+    @include create-mark-font-face($path, 'Heavy', $font-weight-heavy);
+}
+
+@mixin mark-font($path: '') {
+    $default-font: sans-serif;
+
+    @include mark-font-light($path);
+    @include mark-font-normal($path);
+    @include mark-font-bold($path);
+    @include mark-font-heavy($path);
+
+    // Universally reducing the kerning - if this causes issues, we can adjust or remove or find a better implementation
+    * {
+        letter-spacing: -.006em;
+        text-rendering: optimizeLegibility;
+    }
+
+    // Set MarkFont to be the font-family for all tings
+    html,
+    input,
+    textarea,
+    keygen,
+    select,
+    button
+    {
+        font-family: 'MarkFont', $default-font;
+    }
+}

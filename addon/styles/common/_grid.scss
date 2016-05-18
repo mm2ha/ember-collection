@@ -1,0 +1,72 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+@import 'globals';
+
+// Using $mobile-breakpoint from global
+// We need to figure out which one we want
+// $mobile-breakpoint: 640px;
+
+// Desktop
+$columns: 12; // Number of Columns
+$col-percent: (1 / $columns) * 100%; // Calculate Width
+
+
+// Mobile
+$mobile-columns: 8; // Number of Columns
+$mobile-col-percent: (1 / $mobile-columns) * 100%; // Calculate Width
+
+.row {
+    display: flex;
+
+    // Immediate children with class name starting with 'col-'
+    & > .col,
+    & > [class^='col-'],
+    & > [class*=' col-'] {
+        flex-basis: 100%;
+        padding: 0 $base-grid;
+        width: 0;
+    }
+
+    // Define Column Classes
+    @for $i from 1 through $columns {
+        & > .col-#{$i} {
+            flex-basis: $col-percent * $i;
+        }
+
+        & > .col-offset-#{$i} {
+            margin-left: $col-percent * $i;
+        }
+    }
+}
+
+// Mobile
+@media (max-width: $mobile-breakpoint) {
+    .row {
+        flex-wrap: wrap;
+
+        // Immediate children with class name starting with 'col-'
+        & > [class^='col-'],
+        & > [class*=' col-'] {
+            // Reset all 'col-' flex-basis to 100%
+            flex-basis: 100%;
+
+            // Set flex-basis for classes starting with 'm-col-'
+            // NOTE: You must specify 'col-' for 'm-col' to work
+            @for $i from 1 through $mobile-columns {
+                &.m-col-#{$i} {
+                    flex-basis: $mobile-col-percent * $i;
+                }
+
+                &.m-col-offset-#{$i} {
+                    margin-left: $mobile-col-percent * $i;
+                }
+            }
+        }
+
+        // Immediate children with class name starting with 'col-offset-'
+        & > [class^="col-offset-"],
+        & > [class*=" col-offset-"] {
+            margin-left: auto;
+        }
+    }
+}

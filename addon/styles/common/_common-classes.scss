@@ -1,0 +1,153 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+@import 'globals';
+@import 'colors';
+@import 'mixins';
+
+// TODO: remove all hovers if the device is mobile because they do not handle hovers well
+
+* {
+    // Use border-box for all elements.
+    box-sizing: border-box;
+
+    // Auto hide scrollbars in IE10/11 and Edge.
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+// Remove the weird flash when tapping on anything on iOS
+html {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+// Button reset
+button {
+    appearance: none;
+    background: none;
+    border: 0;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+}
+
+// Cursor pointer on all elements that have an action so that browsers will treat it like action (for example iOS Safari)
+[data-ember-action] {
+    cursor: pointer;
+}
+
+// Wrapper around a content
+.view-container {
+    border-radius: $border-radius-px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.2),0 3px 6px 0 rgba(0,0,0,.05);
+    background: $white;
+    color: $black-80;
+
+    .view-header {
+        height: $base-grid-6x;
+        line-height: $base-grid-6x;
+        font-size: $font-size-xl;
+        font-weight: 400;
+        margin: 0;
+        padding: 0 $base-grid-3x;
+    }
+
+    .view-subheader {
+        font-size: $font-size-normal;
+        color: $black-40;
+        margin: $base-grid 0;
+        padding: 0 $base-grid-5x;
+    }
+
+    .view-content {
+        padding: $base-grid $base-grid-3x;
+    }
+}
+
+// Horizontal lists.
+ul.horizontal {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        float: left;
+
+        a {
+            display: block;
+        }
+    }
+}
+
+// Collection lists.
+ul.collection {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0;
+    }
+}
+
+// Clear floats.
+.clear-me:before,
+.clear-me:after {
+    content: "";
+    display: table;
+}
+
+.clear-me:after {
+    clear: both;
+}
+
+// Single line text ellipsis.
+.ellipsize {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Links
+a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+// Helper class that will take up the remainder of vertical space on page
+.fill-page {
+    flex: 1;
+    position: relative;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+@mixin hasListIndicator($startColor: rgba($white, 0), $endColor: $white) {
+    background: linear-gradient(to bottom, $startColor, $endColor);
+    bottom: 0;
+    content: ' ';
+    height: 55px;
+    left: 0;
+    margin: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+}
+
+// List indicator
+.has-list-indicator:after {
+    @include hasListIndicator();
+}
+
+.has-list-indicator-dark:after {
+    @include hasListIndicator(rgba($black, 0), rgba($black, 0.5));
+}
+
+

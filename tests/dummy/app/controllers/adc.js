@@ -32,15 +32,15 @@ function getItems(startingIndex = 0, numItems = 50, noWidth = false) {
  *
  * @returns {Ember.RSVP.Promise}
  */
-function getMoreItemsPromise () {
+function getMoreItemsPromise (numberOfItems) {
     return new Ember.RSVP.Promise(function(resolve) {
         Ember.run.later(() => {
             let startingIndex = this.get('lastIndex');
-            let count = this.get('incrementalItemCount');
+            let count = numberOfItems || this.get('incrementalItemCount');
 
             let newItems = getItems(startingIndex, count, this.get('mixedGridNoWidth'));
 
-            let allLoaded = Math.random() > 0.3;
+            let allLoaded = (Math.random() * 100) > (100 - parseInt(this.get('chanceItemsLoaded'), 10));
             Ember.Logger.debug('All Loaded: ', allLoaded);
 
             this.set('lastIndex', startingIndex + count);
@@ -55,7 +55,7 @@ function getMoreItemsPromise () {
             newItems.set('meta', meta);
 
             resolve(newItems);
-        }, 500);
+        }, this.get('newItemsDelay'));
     }.bind(this));
 }
 
@@ -72,17 +72,19 @@ function getMoreItems (setPromiseFunction) {
 
 export default Ember.Controller.extend(/** @lends Ember.Controller.prototype **/ {
 
-    initialItemCount: 50,
-    incrementalItemCount: 50,
+    initialItemCount: 5,
+    incrementalItemCount: 15,
     allLoaded: false,
     buffer: 10,
-    infinityScrollBuffer: 50,
+    infinityScrollBuffer: 25,
     lastVisibleIndex: 0,
     rowHeight: 90,
     fullWidthRow: true,
-    isInfinite: true,
+    isInfinite: false,
     isLoadingStatus: Ember.computed.oneWay('isLoading'),
     hasAllItemsLoadedStatus: Ember.computed.oneWay('hasAllItemsLoaded'),
+    newItemsDelay: 100,
+    chanceItemsLoaded: 20,
 
     /**
      * Initialize data
@@ -90,6 +92,8 @@ export default Ember.Controller.extend(/** @lends Ember.Controller.prototype **/
     onInit: Ember.on('init', function () {
         this.set('lastIndex', 0);
         this.set('items', getItems(0, this.get('initialItemCount'), false));
+
+        this.set('lastIndex', this.get('items').length);
     }),
 
     /** @ignore **/
@@ -111,16 +115,29 @@ export default Ember.Controller.extend(/** @lends Ember.Controller.prototype **/
 
             getMoreItems.call(this, setPromiseFunction);
         },
-        deleteItem() {
-            Ember.Logger.warn('DeleteItem in Controller');
+
+        /**
+         * Sets items as a promise, which tests how the collection can handle this
+         */
+        addMoreData() {
+            this.set('items', getItems(0, this.get('lastIndex') + this.get('incrementalItemCount'), false));
+
+            this.set('lastIndex', this.get('items').length);
+        },
+
+        /**
+         * Recreates items via a promise
+         */
+        recreateItems() {
+            this.send('reloadData', parseInt(this.get('initialItemCount'), 10));
         },
 
         /**
          * Sets items as a promise, which tests how the collection can handle this
          */
-        reloadData() {
+        reloadData(numberOfItems) {
             this.set('lastIndex', 0);
-            this.set('items', getMoreItemsPromise.call(this));
+            this.set('items', getMoreItemsPromise.call(this, numberOfItems || this.get('initialItemCount')));
         },
 
         /**
@@ -139,6 +156,17 @@ export default Ember.Controller.extend(/** @lends Ember.Controller.prototype **/
          */
         allItemsLoadedAction (allItemsLoaded) {
             this.set('hasAllItemsLoaded', allItemsLoaded);
+        },
+
+        /**
+         * Outputs the received changed meta object to the console
+         *
+         * @param {Object} items
+         * @param {Object} meta
+         */
+        itemsChangeAction(items, meta) {
+            Ember.Logger.debug('items:', items);
+            Ember.Logger.debug('meta:', meta);
         }
     }
 

@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             dist: {
                 src: [
                     'addon/**/*.js',
-                    'README.md'
+                    'ADC-README.md'
                 ],
                 options: {
                     destination: 'docs',

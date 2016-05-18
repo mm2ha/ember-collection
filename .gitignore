@@ -18,7 +18,5 @@ npm-debug.log
 testem.log
 .DS_Store
 /docs
-/.svn
-/tests/dummy/public/font-mark/*
 /**/.svn
-/**/styles/common/*
+/tests/dummy/public/font-mark/*

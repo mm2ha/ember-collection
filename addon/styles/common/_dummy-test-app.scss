@@ -1,0 +1,128 @@
+// SCSS file that should be imported by all Ember dummy apps. Specifies the necessary classes and CSS settings.
+
+@import 'colors';
+@import 'globals';
+@import 'common-classes';
+@import 'grid';
+@import 'mixins';
+@import 'font-mark-mixins';
+
+// Use all of mark font
+@include mark-font('/font-mark/');
+
+html {
+    color: $black-80;
+    font-size: $font-size-normal;
+    height: 100%;
+
+    body {
+        background-color: #bbb;
+        height: 100%;
+        margin: 0;
+        padding: $base-grid-2x;
+        width: 100%;
+
+        & > .ember-view {
+            height: 100%;
+        }
+    }
+}
+
+// Extend view-container
+.view-container {
+    float: left;
+    min-width: 700px;
+    padding: $base-grid-4x;
+    max-width: 700px;
+
+    .view-header {
+        text-align: center;
+        font-size: $font-size-xxl;
+    }
+
+    .subtitle {
+        font-size: $font-size-xl;
+
+        &.result {
+            padding-top: 10px;
+        }
+    }
+}
+
+ul.page-list {
+    border-bottom: 1px solid #999;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+
+    li {
+        font-size: $font-size-lg;
+        line-height: 24px;
+    }
+}
+
+.results {
+    border-top: 1px solid $black-40;
+    clear: both;
+    float: left;
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.setting-group {
+	align-items: center;
+	display: flex;
+    margin-top: $base-grid;
+
+    .setting-name {
+        float: left;
+        width: 120px;
+    }
+
+    .setting-value {
+        float: left;
+        width: 300px;
+    }
+}
+
+// Inputs so that we do not have to use the main component, but can have it here
+// TODO: maybe make this a mixin? or a part of it?
+input:not([type=checkbox]) {
+    @include input-style($input-border-color, $border-radius-px, $black-80, $font-size-normal, $form-ui-element-height, $base-grid);
+
+    &:focus {
+        border-color: $adc-button-primary;
+    }
+
+    %base-input-style {
+        border-color: transparent transparent $input-border-color transparent;
+        border-radius: 0;
+    }
+
+    &.read-only {
+        @extend %base-input-style;
+
+        color: $black-80;
+    }
+
+    &:disabled {
+        @extend %base-input-style;
+
+        color: #c8c8c8;
+    }
+
+    &::-webkit-input-placeholder,
+    &:-moz-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder {
+        color: $input-placeholder-color
+    }
+}
+
+@media (max-width: $mobile-breakpoint) {
+    .view-container {
+        min-width: initial;
+        padding: $base-grid;
+        width: 100%;
+    }
+}

@@ -4,6 +4,7 @@ import { generateContent, sortItemsByPosition } from '../helpers/helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 let originalRaf = window.requestAnimationFrame;
+let originalRafCancel = window.cancelAnimationFrame;
 
 let template = hbs`{{#if showComponent}}
 <div style={{size-to-style width height}}>
@@ -24,16 +25,17 @@ let template = hbs`{{#if showComponent}}
 
 moduleForComponent('ember-collection', 'raf', {
   integration: true,
-  setup: function() {
+  beforeEach: function() {
     window.requestAnimationFrame = undefined;
   },
-  teardown: function() {
+  afterEach: function() {
     window.requestAnimationFrame = originalRaf;
+    window.cancelAnimationFrame = originalRafCancel;
   }
 });
 
 test('works without requestAnimationFrame', function(assert) {
-    
+
   var width = 150, height = 500, itemWidth = 50, itemHeight = 50;
   var offsetY = 100;
   var content = generateContent(5);
@@ -46,7 +48,7 @@ test('works without requestAnimationFrame', function(assert) {
     Ember.$(positionSorted[0]).text().trim(),
     "Item 1", "We rendered without requestAnimationFrame"
   );
-  
+
   // Force the component to be torn down.
   this.setProperties({showComponent: false});
 });

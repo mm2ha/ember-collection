@@ -1,0 +1,59 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+// Base grid
+$base-grid: 8px;
+$base-grid-2x: 2 * $base-grid;
+$base-grid-3x: 3 * $base-grid;
+$base-grid-4x: 4 * $base-grid;
+$base-grid-5x: 5 * $base-grid;
+$base-grid-6x: 6 * $base-grid;
+$base-grid-7x: 7 * $base-grid;
+$base-grid-8x: 8 * $base-grid;
+$base-grid-9x: 9 * $base-grid;
+$base-grid-10x: 10 * $base-grid;
+$base-grid-11x: 11 * $base-grid;
+$base-grid-half: $base-grid / 2;
+
+// Screen size breaks
+$break-small: 540px;
+$break-medium: 768px;
+$break-large: 1024px;
+
+// Transition Durations
+$transition-x-fast: 0.1s;
+$transition-fast: 0.3s;
+$transition-medium: 0.5s;
+$transition-slow: 0.75s;
+
+// Additions from Forms
+// Just another name for the same variable
+$mobile-breakpoint: $break-small;
+
+// Height for each form element
+$form-ui-element-height: $base-grid-4x;
+
+// Font sizes
+$font-size-xxs: 8px;
+$font-size-xs: 10px;
+$font-size-sm: 12px;
+$font-size-normal: 14px;
+$font-size-lg: 16px;
+$font-size-xl: 18px;
+$font-size-xxl: 20px;
+
+// Font weights
+$font-weight-light: 200;
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+$font-weight-heavy: 800;
+
+// Standard border radius
+$border-radius-px: 4px;
+
+// z-index
+$z-index-dropdown-menu: 500;
+$z-index-dropdown-menu-backdrop: $z-index-dropdown-menu - 1;
+$z-index-modal: 1041;
+$z-index-modal-backdrop: $z-index-modal - 1;
+$z-index-dropdown-menu-modal: $z-index-modal + 150;
+$z-index-dropdown-menu-backdrop-modal: $z-index-dropdown-menu-modal - 1;

@@ -1,7 +1,23 @@
-{{#ember-native-scrollable content-size=_contentSize scroll-left=_scrollLeft scroll-top=_scrollTop scrollChange=(action "scrollChange") clientSizeChange=(action "clientSizeChange")}}
-  <div>
-    {{~#each _cells as |cell|~}}
-      <div style={{{cell.style}}}>{{yield cell.item cell.index }}</div>
-    {{~/each~}}
-  </div>
+{{#ember-native-scrollable
+    content-size=_contentSize
+    scroll-left=_scrollLeft
+    scroll-top=_scrollTop
+    scrollChange=(action "scrollChange")
+    clientSizeChange=(action "clientSizeChange")
+}}
+    <div class="{{itemsContainerClass}}">
+        {{~#each _cells as |cell|~}}
+            <div style={{{cell.style}}}>{{yield cell.item removeItem}}</div>
+        {{~/each~}}
+    </div>
+    {{#if isLoading}}
+        <div class="loading-data">
+            {{spinner-svg spinning=true size="large"}}
+        </div>
+    {{/if}}
+    {{#if showMoreDataOption}}
+        <div class="load-more-data" {{action loadMoreData}}>
+            {{moreDataText}}
+        </div>
+    {{/if}}
 {{/ember-native-scrollable}}

@@ -1,0 +1,104 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+@mixin colored-button($button-color, $add-dark-hover: false, $text-color: #fff) {
+    background: $button-color;
+    color: $text-color;
+
+    svg {
+        path {
+            fill: $text-color;
+        }
+    }
+
+    $hover-color: $button-color;
+
+    @if ($add-dark-hover) {
+        $hover-color: darken($button-color, 8%);
+    }
+
+    &[aria-disabled='true'] {
+        cursor: default;
+        opacity: 0.7;
+
+        svg,
+        span,
+        &:after {
+            opacity: 0.4;
+        }
+    }
+
+    &:not([aria-disabled='true']) {
+        &:hover {
+            background: $hover-color;
+        }
+
+        &:active {
+            opacity: 0.8;
+        }
+    }
+}
+
+@mixin input-style($input-border-color, $border-radius-px, $color, $font-size, $height, $base-grid) {
+    border: 1px solid $input-border-color;
+    border-radius: $border-radius-px;
+    color: $color;
+    font-size: $font-size;
+    height: $height;
+    line-height: $height;
+    outline: none;
+    padding: 0 $base-grid;
+    width: 100%;
+    -webkit-appearance: none;
+}
+
+@mixin unselectable() {
+    user-select: none;
+}
+
+@mixin checkmark($base-grid, $color:#FFFFFF) {
+    &:before,
+    &:after {
+        background-color: $color;
+        content: "";
+        display: block;
+        height: 2px;
+        position: absolute;
+    }
+
+    &:before {
+        left: 2px;
+        top: $base-grid;
+        transform: rotate(45deg);
+        width: 5px;
+    }
+
+    &:after {
+        left: 4px;
+        top: 6px;
+        transform: rotate(-45deg);
+        width: 9px;
+    }
+}
+
+@mixin text-no-wrap-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin dealerLogoNav($base-grid) {
+    .dealer-logo {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding-top: $base-grid;
+        width: 100%;
+
+        img {
+            border-width: 0;
+            display: block;
+            height: auto;
+            width: 220px;
+        }
+    }
+}

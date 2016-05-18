@@ -26,6 +26,8 @@ export default class FullWidthRow extends PercentageGrid {
      * Sets up positions for items
      *
      * @param {Ember.A} items
+     *
+     * @private
      */
     updatePositionsWithItems (items) {
         let length = items.length;
@@ -41,9 +43,20 @@ export default class FullWidthRow extends PercentageGrid {
 
     /**
      * Called when more items are added to the collection
-     * @param {Ember.A} items
+     *
+     * @param {Ember.A} newItems
      */
-    addContent(newItems) {
+    addItems(newItems) {
         this.updatePositionsWithItems(newItems);
+    }
+
+    /**
+     * Removes item at index
+     *
+     * @param {number} itemIndex
+     */
+    removeItem(itemIndex) {
+        // Remove 1 item at the passed in index
+        this.positions.splice(itemIndex, 1);
     }
 }

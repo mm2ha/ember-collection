@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import layout from './ember-collection/template';
 import needsRevalidate from '../utils/needs-revalidate';
+import { VIEWPORT_CHANGE_ACTION } from './list-view';
 var decodeEachKey = Ember.__loader.require('ember-htmlbars/utils/decode-each-key')['default'];
 const { get, set } = Ember;
 
@@ -21,6 +22,8 @@ class Cell {
  */
 export default Ember.Component.extend(/** @lends components.EmberCollection.prototype */ {
   layout: layout,
+
+  classNames: ['list-view'],
 
   init() {
     // State pulled from attrs is prefixed with an underscore
@@ -61,6 +64,7 @@ export default Ember.Component.extend(/** @lends components.EmberCollection.prot
     this._clientWidth = this.getAttr('estimated-width') | 0;
     this._clientHeight = this.getAttr('estimated-height') | 0;
     this._scrollChange = this.getAttr('scroll-change');
+    this._viewportChangeAction = this.getAttr(VIEWPORT_CHANGE_ACTION);
   },
 
   _needsRevalidate(){
@@ -76,15 +80,20 @@ export default Ember.Component.extend(/** @lends components.EmberCollection.prot
     this.updateScrollPosition();
   },
 
-    /**
-     * Updates internal collection of items
-     *
-     * @param {Ember.NativeArray} itemsIn - If specified, it will be used instead of the attribute
-     * @param {Grid} cellLayoutIn - If specified, it will be used instead of the attribute
-     */
-  updateItems(itemsIn, cellLayoutIn){
-    this._cellLayout = cellLayoutIn || this.getAttr('cell-layout');
-    var rawItems = itemsIn || this.getAttr('items');
+  updateItems(){
+    const layout = this.getAttr('cell-layout');
+
+    // If the actual layout changed, then reset everything
+    if (this._cellLayout && this._cellLayout !== layout) {
+        // Reset cells on refresh
+        // This is probably quite expensive, but will not happen very often
+        this.set('_cells', Ember.A());
+        this._cellMap = Object.create(null);
+        this.set('_scrollTop', 0);
+    }
+
+    this._cellLayout = layout;
+    var rawItems = this.getAttr('items');
 
     if (this._rawItems !== rawItems) {
       if (this._items && this._items.removeArrayObserver) {
@@ -212,13 +221,30 @@ export default Ember.Component.extend(/** @lends components.EmberCollection.prot
     }
     this._cellMap = cellMap;
 
-    // If there is an updateCellsFinished action on this component, then trigger it
-    // This will only happen if the AdcEmberCollection component is overriding this one
-    if (this.actions.updateCellsFinished) {
-      this.send('updateCellsFinished', startingIndex, visibleCount);
-    }
-
+    this.updateViewportData(startingIndex, visibleCount);
   },
+
+    /**
+     * Updates viewport data and triggers a viewport change action if the variables have changed
+     *
+     * @param {number} firstVisibleIndex - Index of the first visible item
+     * @param {number} visibleItemsCount - Number of visible items in the viewport
+     */
+    updateViewportData (firstVisibleIndex, visibleItemsCount) {
+        Ember.run.scheduleOnce('afterRender', this, function () {
+            // Trigger action if it is set and if the viewport variables changed
+            if (this._viewportChangeAction &&
+                (this._firstVisibleIndex !== firstVisibleIndex ||
+                this._visibleItemsCount !== visibleItemsCount)) {
+                this.sendAction(VIEWPORT_CHANGE_ACTION, firstVisibleIndex, visibleItemsCount);
+            }
+
+            // Cache new viewport variables
+            this._firstVisibleIndex = firstVisibleIndex;
+            this._visibleItemsCount = visibleItemsCount;
+        }, firstVisibleIndex, visibleItemsCount);
+    },
+
   /** @ignore **/
   actions: /** @lends components.EmberCollection.prototype */ {
     scrollChange(scrollLeft, scrollTop) {

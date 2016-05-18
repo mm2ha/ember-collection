@@ -1,0 +1,103 @@
+// NOTE: THIS FILE IS SHARED FOR ALL EMBER DEVELOPMENT. ANY CHANGES MADE TO THIS FILE WILL AFFECT MULTIPLE EMBER APPLICATIONS.
+
+// Primary
+$red: #DB2A17;
+$orange: #DB7226;
+$orange-yellow: #E89D00;
+$yellow: #EFE401;
+$yellow-green: #84C133;
+$lime: #4DB71A;
+$green: #00A216;
+$green-cyan: #00A5A1;
+$cyan: #00A4CD;
+$cyan-blue: #3C86DB;
+$blue: #3D49D1;
+$blue-violet: #6429CE;
+$violet: #8B2CCE;
+$violet-magenta: #BB3EB6;
+$magenta: #D72573;
+$magenta-red: #D7254A;
+
+// Pastel
+$pastel-red: #EF948C;
+$pastel-orange: #EEBC8A;
+$pastel-orange-yellow: #F4D17F;
+$pastel-yellow: #F9F7A6;
+$pastel-yellow-green: #C4E29B;
+$pastel-lime: #A8DD91;
+$pastel-green: #6DD38B;
+$pastel-green-cyan: #6DD4D3;
+$pastel-cyan: #81CFE1;
+$pastel-cyan-blue: #95BEE9;
+$pastel-blue: #969EE9;
+$pastel-blue-violet: #B395E9;
+$pastel-violet: #C895E9;
+$pastel-violet-magenta: #DF9FDD;
+$pastel-magenta: #EE8FBC;
+$pastel-magenta-red: #EE90A5;
+
+// Light
+$light-red: #EC675A;
+$light-orange: #ECAA56;
+$light-orange-yellow: #F3C63A;
+$light-yellow: #F6F271;
+$light-yellow-green: #B4DC76;
+$light-lime: #8BD761;
+$light-green: #00CA58;
+$light-green-cyan: #00CAC9;
+$light-cyan: #41C3DB;
+$light-cyan-blue: #6CADE4;
+$light-blue: #6E7CE5;
+$light-blue-violet: #9C6BE5;
+$light-violet: #B96BE5;
+$light-violet-magenta: #D97DD6;
+$light-magenta: #EA60AA;
+$light-magenta-red: #EA6187;
+
+// Dark
+$dark-red: #A01300;
+$dark-orange: #9E4303;
+$dark-orange-yellow: #AB6600;
+$dark-yellow: #B4AB00;
+$dark-yellow-green: #508703;
+$dark-lime: #1E7E00;
+$dark-green: #006B00;
+$dark-green-cyan: #006E6A;
+$dark-cyan: #006386;
+$dark-cyan-blue: #064693;
+$dark-blue: #0A1994;
+$dark-blue-violet: #351993;
+$dark-violet: #571B93;
+$dark-violet-magenta: #821B7D;
+$dark-magenta: #9C1642;
+$dark-magenta-red: #9C131C;
+
+// Grays
+$white: #fff;
+$black: #000;
+$black-80: #333;
+$black-60: #666;
+$black-40: #999;
+$black-20: #ccc;
+$light-gray: #f0f0f0;
+$steel: #e0e3e7;
+$dark-steel: #c2c8cf;
+
+// Input Colors
+$input-border-color: #E2E2E2;
+$input-placeholder-color: $black-40;
+$input-shadow-color: #BDD6F3;
+$input-error-border: $light-red;
+$hover-bg-color: rgba($cyan-blue, 0.2);
+$list-separator-color: rgba($black-20, 0.5);
+
+// Button colors
+$adc-button-default: #e7e7e7;
+$adc-button-default-text: $black-80;
+$adc-button-default-dark: #dadada;
+$adc-button-primary: $cyan-blue;
+$adc-button-primary-text: $white;
+$adc-button-danger: $red;
+$adc-button-danger-text: $white;
+$adc-button-safe: $green;
+$adc-button-safe-text: $white;
