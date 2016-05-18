@@ -20,3 +20,5 @@ testem.log
 /docs
 /.svn
 /tests/dummy/public/font-mark/*
+/**/.svn
+/**/styles/common/*
