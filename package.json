@@ -1,6 +1,6 @@
 {
   "name": "@adc/ember-collection",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "An efficient incremental rendering component with custom layouts and support for large lists.",
   "directories": {
     "doc": "doc",
