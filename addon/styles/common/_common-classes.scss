@@ -29,15 +29,20 @@ button {
     padding: 0;
 }
 
-// Cursor pointer on all elements that have an action so that browsers will treat it like action (for example iOS Safari)
-[data-ember-action] {
-    cursor: pointer;
+// Mobile only
+.media-mobile,
+.media-tablet {
+    [data-ember-action] {
+        // Some mobile browsers don't allow click on ember actions unless they have a cursor so add it here.
+        cursor: pointer;
+    }
 }
 
 // Wrapper around a content
 .view-container {
     border-radius: $border-radius-px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,.2),0 3px 6px 0 rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2),
+                0 3px 6px 0 rgba(0, 0, 0, 0.05);
     background: $white;
     color: $black-80;
 
